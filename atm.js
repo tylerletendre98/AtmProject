@@ -38,6 +38,7 @@ function validatePin(pinInput,accountPin){
         return false
     }
 }
+
 module.exports.getBalance = getBalance;
 module.exports.withdrawMoney = withdrawMoney;
 module.exports.depositMoney = depositMoney;
