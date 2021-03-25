@@ -3,7 +3,7 @@ const account = require('./account');
 //displays current account balance
 
 function getBalance(currentBalance){
-    console.log(currentBalance);
+   return currentBalance;
 }
 
 function withdrawMoney(currentBalance,withdrawnMoney){
@@ -12,11 +12,11 @@ function withdrawMoney(currentBalance,withdrawnMoney){
 }
 
 function depositMoney(currentBalance,depositedAmount){
-    let newBalance = currentBalance + depositedAmount;
-    return newBalance;
+    currentBalance = currentBalance + depositedAmount;
+    return currentBalance;
 }
 function validatePin(pinInput,accountPin){
-    if (pinInput === accountPin){
+    if (pinInput == accountPin){
         return true
     }
     else{
