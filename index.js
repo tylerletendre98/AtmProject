@@ -21,17 +21,22 @@ function mainMenu(){
     if (userInput == "check balance"){
         let balance = atm.getBalance(atm.account.accountBalance);
         console.log("Your account balance is: "+balance);
+        return mainMenu();
     }
     else if( userInput == "withdraw"){
         let withdrawAmount = prompt("how much would you like to withdraw ");
-        let withdrawnBalance = atm.withdrawMoney(atm.account.accountBalance,withdrawAmount);
-        console.log("Your new account balance is " + withdrawnBalance);
+        atm.account.accountBalance = atm.withdrawMoney(atm.account.accountBalance,withdrawAmount);
+        console.log("Your new account balance is " + atm.account.accountBalance);
         return mainMenu();
     }
     else if (userInput == "deposit"){
         let depositAmount = parseFloat(prompt("How much would you like to deposit "));
-        let depositedBalance = atm.depositMoney(atm.account.accountBalance,depositAmount);
-        console.log("Your new account balance is " +depositedBalance);
+        atm.account.accountBalance = atm.depositMoney(atm.account.accountBalance,depositAmount);
+        console.log("Your new account balance is " + atm.account.accountBalance);
+        return mainMenu();
+    }
+    else if (userInput == "exit"){
+        console.log("thankyou for using this ATM");
     }
     else{
         return mainMenu();
