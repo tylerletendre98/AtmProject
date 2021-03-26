@@ -1,25 +1,31 @@
 "use strict";
+const index = require('./index');
 const account = require('./account');
-const { cashOnHand } = require('./wallet');
+const prompt= require('prompt-sync')();
+// const wallet = require('./wallet');
+// const index = require('./index')
 //displays current account balance
 
-function getBalance(accountBalance){
-   return accountBalance;
+function getBalance(){
+  return account.accountBalance;
 }
 //take money out of account
-function withdrawMoney(accountBalance,withdrawnMoney,){
-    accountBalance = accountBalance - withdrawnMoney;
-    return accountBalance;
+function withdrawMoney(withdrawAmount){
+    if (account.accountBalance > withdrawAmount){
+        account.accountBalance -= withdrawAmount;
+        console.log(`You have withdrawn ${withdrawAmount} from your account`);
+    }
+    else{   
+        console.log('You do not have enough money in your account to withdrawl that amount');
+        return index.mainMenu();
+    }
 }
-//puts money into wallet
-function movesMoneyToWallet(withdrawnMoney,cashOnHand){
-    cashOnHand = cashOnHand + withdrawnMoney;
-    return cashOnHand;
-}
+//puts money into walle
+
 //puts money into account
-function depositMoney(accountBalance,depositedAmount,){
-    accountBalance = accountBalance + depositedAmount;
-    return accountBalance;
+function depositMoney(depositedAmount){
+    account.accountBalance += depositedAmount;
+    console.log(`you have deposited ${depositedAmount} into your account.`);
 }
 //takes money out of wallet
 function movesMoneyFromWallet(depositedAmount,cashOnHand){
@@ -38,14 +44,25 @@ function validatePin(pinInput,accountPin){
         return false
     }
 }
-
+function promptFor(question, valid) {
+    try {
+      do {
+        var response = prompt(question).trim().toLowerCase();
+      } while (!response || !valid(response));
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+}
+function checkForNumber(input) {
+    return !isNaN(input);
+}
 module.exports.getBalance = getBalance;
 module.exports.withdrawMoney = withdrawMoney;
 module.exports.depositMoney = depositMoney;
 module.exports.validatePin = validatePin;
 module.exports.displayCashOnHand = displayCashOnHand;
 module.exports.movesMoneyFromWallet = movesMoneyFromWallet;
-module.exports.movesMoneyToWallet = movesMoneyToWallet;
 module.exports.account = account;
 
 

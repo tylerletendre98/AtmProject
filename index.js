@@ -1,7 +1,6 @@
 'use strict';
-const { accountBalance, accountPin } = require("./account");
 const atm = require("./atm");
-const { cashOnHand } = require("./wallet");
+const wallet = require("./wallet");
 const prompt= require('prompt-sync')();
 
 // function that asks for pin
@@ -20,37 +19,31 @@ askForPin();
 function mainMenu(){
     let userInput = promptFor("What are you looking to do? check balance, withdraw, deposit, check wallet or exit ", chars);
     if (userInput == "check balance"){
-        let balance = atm.getBalance(atm.account.accountBalance);
+        let balance = atm.getBalance();
         console.log("Your account balance is: "+balance);
         return mainMenu();
     }
     else if( userInput == "withdraw"){
-        let withdrawAmount = parseFloat(promptFor("How much do you want to withdraw ", checkForNumber));
-        if (withdrawAmount < atm.account.accountBalance){
-            atm.account.accountBalance = atm.withdrawMoney(atm.account.accountBalance,withdrawAmount,atm.account.wallet.cashOnHand);
-            atm.account.wallet.cashOnHand = atm.movesMoneyToWallet(withdrawAmount,atm.account.wallet.cashOnHand);
-            console.log("Your new account balance is " + atm.account.accountBalance);
+        let withdrawAmount = parseFloat(promptFor("How much would you like to withdraw ", checkForNumber));
+            atm.withdrawMoney(withdrawAmount);
+            wallet.cashOnHand += withdrawAmount;
             return mainMenu();
-        }
-        else{
-            console.log("You do not have enough money in your account");
-        }
+        
     }
     else if (userInput == "deposit"){
         let depositAmount = parseFloat(promptFor("How much would you like to deposit ", checkForNumber));
-        if(depositAmount < cashOnHand){
-        atm.account.accountBalance = atm.depositMoney(atm.account.accountBalance,depositAmount,atm.account.wallet.cashOnHand);
-        atm.account.wallet.cashOnHand = atm.movesMoneyFromWallet(depositAmount,atm.account.wallet.cashOnHand);
-        console.log("Your new account balance is " + atm.account.accountBalance);
-        return mainMenu();
+        if(depositAmount < wallet.cashOnHand){
+            wallet.cashOnHand -= depositAmount;
+            atm.depositMoney(depositAmount,);
+            return mainMenu();
         }
         else{
             console.log("You dont have that much money to deposit");
             return mainMenu();
         }
-    }
+        }
     else if (userInput == "check wallet"){
-        let cashOnHand = atm.displayCashOnHand(atm.account.wallet.cashOnHand);
+        let cashOnHand = atm.displayCashOnHand(wallet.cashOnHand);
         console.log(cashOnHand)
         return mainMenu();
     }
@@ -72,12 +65,12 @@ function promptFor(question, valid) {
       console.log(error);
     }
 }
-function yesNo(input) {
-    return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
-  }
+
 function chars(input) {
     return true;
 }
 function checkForNumber(input) {
     return !isNaN(input);
-  }
+}
+
+module.exports.mainMenu = mainMenu;
