@@ -1,4 +1,5 @@
 'use strict';
+const { accountBalance } = require("./account");
 const atm = require("./atm");
 const wallet = require("./wallet");
 const prompt= require('prompt-sync')();
@@ -25,10 +26,16 @@ function mainMenu(){
     }
     else if( userInput == "withdraw"){
         let withdrawAmount = parseFloat(promptFor("How much would you like to withdraw ", checkForNumber));
-            atm.withdrawMoney(withdrawAmount);
+            if (atm.withdrawMoney(withdrawAmount) == true){
             wallet.cashOnHand += withdrawAmount;
             return mainMenu();
-        
+            }
+            else{
+                withdrawAmount = parseFloat(prompt("How much would you like to take out?: "));
+                atm.withdrawMoney(withdrawAmount);
+                wallet.cashOnHand += withdrawAmount;
+                return mainMenu();
+            }
         }
         else if (userInput == "deposit"){
             let depositAmount = parseFloat(promptFor("How much would you like to deposit ", checkForNumber));
@@ -51,7 +58,7 @@ function mainMenu(){
         console.log("thankyou for using this ATM");
     }
     else{
-        console.log("That was not a valid response please type \n check balance \n deposit \n withdraw \n see cash on hand \n")
+        console.log("That was not a valid response please : \n 1.check balance \n 2.deposit \n 3.withdraw \n 4.see cash on hand \n")
         return mainMenu();
     }
 }

@@ -13,12 +13,16 @@ function getBalance(){
 function withdrawMoney(withdrawAmount){
     if (account.accountBalance > withdrawAmount){
         account.accountBalance -= withdrawAmount;
-        console.log(`You have withdrawn ${withdrawAmount} from your account`);    
+        console.log(`You have withdrawn ${withdrawAmount} from your account`); 
+        return true   
         }
     else{
+        while (account.accountBalance < withdrawAmount){
         console.log(`You dont have enough money in your account. Youre account balance is ${account.accountBalance}.`);
-        return index.mainMenu();
+        return false;
+        }
     }
+    
 }
 //puts money into account
 function depositMoney(depositedAmount){
