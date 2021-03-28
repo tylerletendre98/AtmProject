@@ -1,7 +1,7 @@
 "use strict";
-const index = require('./index');
 const account = require('./account');
 const prompt= require('prompt-sync')();
+const index = require('./index');
 // const wallet = require('./wallet');
 // const index = require('./index')
 //displays current account balance
@@ -13,15 +13,13 @@ function getBalance(){
 function withdrawMoney(withdrawAmount){
     if (account.accountBalance > withdrawAmount){
         account.accountBalance -= withdrawAmount;
-        console.log(`You have withdrawn ${withdrawAmount} from your account`);
-    }
-    else{   
-        console.log('You do not have enough money in your account to withdrawl that amount');
+        console.log(`You have withdrawn ${withdrawAmount} from your account`);    
+        }
+    else{
+        console.log(`You dont have enough money in your account. Youre account balance is ${account.accountBalance}.`);
         return index.mainMenu();
     }
 }
-//puts money into walle
-
 //puts money into account
 function depositMoney(depositedAmount){
     account.accountBalance += depositedAmount;

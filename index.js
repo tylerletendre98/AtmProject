@@ -29,18 +29,18 @@ function mainMenu(){
             wallet.cashOnHand += withdrawAmount;
             return mainMenu();
         
-    }
-    else if (userInput == "deposit"){
-        let depositAmount = parseFloat(promptFor("How much would you like to deposit ", checkForNumber));
-        if(depositAmount < wallet.cashOnHand){
-            wallet.cashOnHand -= depositAmount;
-            atm.depositMoney(depositAmount,);
-            return mainMenu();
         }
-        else{
-            console.log("You dont have that much money to deposit");
-            return mainMenu();
-        }
+        else if (userInput == "deposit"){
+            let depositAmount = parseFloat(promptFor("How much would you like to deposit ", checkForNumber));
+            if(depositAmount < wallet.cashOnHand){
+                wallet.cashOnHand -= depositAmount;
+                atm.depositMoney(depositAmount);
+                return mainMenu();
+                }
+            else{
+                console.log("You dont have that much money to deposit");
+                return mainMenu();
+            }
         }
     else if (userInput == "check wallet"){
         let cashOnHand = atm.displayCashOnHand(wallet.cashOnHand);
