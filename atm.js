@@ -11,23 +11,17 @@ function getBalance(){
 }
 //take money out of account
 function withdrawMoney(withdrawAmount){
-    if (account.accountBalance > withdrawAmount){
-        account.accountBalance -= withdrawAmount;
-        console.log(`You have withdrawn ${withdrawAmount} from your account`); 
-        return true   
-        }
-    else{
-        while (account.accountBalance < withdrawAmount){
-        console.log(`You dont have enough money in your account. Youre account balance is ${account.accountBalance}.`);
-        return false;
-        }
+    while (withdrawAmount > account.accountBalance){
+        withdrawAmount = parseFloat(prompt(`You dont have that much in your account your balance is $${account.accountBalance} please enter new amount: `));
     }
-    
+    account.accountBalance -= withdrawAmount;
+    console.log(`You have withdrawn $${withdrawAmount} from your account. `)
+    return withdrawAmount;
 }
 //puts money into account
 function depositMoney(depositedAmount){
     account.accountBalance += depositedAmount;
-    console.log(`you have deposited ${depositedAmount} into your account.`);
+    console.log(`you have deposited $${depositedAmount} into your account.`);
 }
 //takes money out of wallet
 function movesMoneyFromWallet(depositedAmount,cashOnHand){
@@ -38,8 +32,8 @@ function displayCashOnHand(cashOnHand){
     return cashOnHand;
 }
 //validates the users pin 
-function validatePin(pinInput,accountPin){
-    if (pinInput == accountPin){
+function validatePin(pinInput){
+    if (pinInput == account.accountPin){
         return true
     }
     else{

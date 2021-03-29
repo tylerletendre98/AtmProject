@@ -7,12 +7,12 @@ const prompt= require('prompt-sync')();
 // function that asks for pin
 function askForPin(){
     let pinInput = prompt("what is your account pin: ",)
-    let correctPin = atm.validatePin(pinInput,atm.account.accountPin);
+    let correctPin = atm.validatePin(pinInput);
     if (correctPin == true){
         mainMenu();
     }
     else{
-        return askForPin(pinInput);
+        return askForPin();
     }
 }
 askForPin();
@@ -26,19 +26,12 @@ function mainMenu(){
     }
     else if( userInput == "withdraw"){
         let withdrawAmount = parseFloat(promptFor("How much would you like to withdraw ", checkForNumber));
-            if (atm.withdrawMoney(withdrawAmount) == true){
+            withdrawAmount = atm.withdrawMoney(withdrawAmount);
             wallet.cashOnHand += withdrawAmount;
             return mainMenu();
-            }
-            else{
-                withdrawAmount = parseFloat(prompt("How much would you like to take out?: "));
-                atm.withdrawMoney(withdrawAmount);
-                wallet.cashOnHand += withdrawAmount;
-                return mainMenu();
-            }
-        }
-        else if (userInput == "deposit"){
-            let depositAmount = parseFloat(promptFor("How much would you like to deposit ", checkForNumber));
+    }
+    else if (userInput == "deposit"){
+        let depositAmount = parseFloat(promptFor("How much would you like to deposit ", checkForNumber));
             if(depositAmount < wallet.cashOnHand){
                 wallet.cashOnHand -= depositAmount;
                 atm.depositMoney(depositAmount);
@@ -55,7 +48,7 @@ function mainMenu(){
         return mainMenu();
     }
     else if (userInput == "exit"){
-        console.log("thankyou for using this ATM");
+        console.log("thankyou for using Tyler's ATM");
     }
     else{
         console.log("That was not a valid response please : \n 1.check balance \n 2.deposit \n 3.withdraw \n 4.see cash on hand \n")
